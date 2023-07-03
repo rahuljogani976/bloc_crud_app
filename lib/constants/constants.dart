@@ -7,7 +7,7 @@ class Constants {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(30.0),
     ),
-    primary: Colors.black87,
+    primary: Colors.indigoAccent,
     padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
   );
 }

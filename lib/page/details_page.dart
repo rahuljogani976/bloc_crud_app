@@ -162,7 +162,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                       ),
                                       actions: [
                                         ElevatedButton(
-                                          style: Constants.customButtonStyle,
+                                          style: ElevatedButton.styleFrom(
+                                              backgroundColor: Colors.indigoAccent, foregroundColor: Colors.white),
                                           onPressed: () {
                                             Navigator.pop(cx);
                                           },
