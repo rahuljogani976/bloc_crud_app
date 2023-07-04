@@ -18,6 +18,7 @@ class _DetailsPageState extends State<DetailsPage> {
   final TextEditingController _newTitle = TextEditingController();
   final TextEditingController _newDescription = TextEditingController();
   final TextEditingController _newNote = TextEditingController();
+  final TextEditingController _newRememberTask = TextEditingController();
   bool toggleSwitch = false;
 
   @override
@@ -70,6 +71,13 @@ class _DetailsPageState extends State<DetailsPage> {
                     const SizedBox(height: 10),
                     TextFormField(
                       initialValue: currentTodo.note,
+                      enabled: false,
+                    ),
+                    const SizedBox(height: 10),
+                    CustomText(text: 'Remember Task'.toUpperCase()),
+                    const SizedBox(height: 10),
+                    TextFormField(
+                      initialValue: currentTodo.rememberTask,
                       enabled: false,
                     ),
                     const SizedBox(height: 10),
@@ -144,6 +152,19 @@ class _DetailsPageState extends State<DetailsPage> {
                                               maxLines: 2,
                                             ),
                                           ),
+                                          const SizedBox(height: 10),
+                                          const Align(
+                                              alignment: Alignment.topLeft,
+                                              child: Text('Remember Task')),
+                                          Flexible(
+                                            child: TextFormField(
+                                              controller: _newRememberTask,
+                                              decoration: const InputDecoration(
+                                                isDense: true,
+                                              ),
+                                              maxLines: 2,
+                                            ),
+                                          ),
                                           Row(
                                             children: [
                                               const Text(
@@ -183,6 +204,7 @@ class _DetailsPageState extends State<DetailsPage> {
                                                   number: currentTodo.number,
                                                   title: _newTitle.text,
                                                   note: _newNote.text,
+                                                  rememberTask: _newRememberTask.text,
                                                 ),
                                               ),
                                             );

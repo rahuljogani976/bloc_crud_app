@@ -106,6 +106,14 @@ class _SqFliteDemoState extends State<SqFliteDemo> {
                                               fontSize: 16,
                                               fontWeight: FontWeight.normal),
                                         ),
+                                        SizedBox(height: 8),
+                                        Text(
+                                          state.todo[i].rememberTask.toUpperCase(),
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.normal),
+                                        ),
                                       ],
                                     ),
                                     trailing: Row(

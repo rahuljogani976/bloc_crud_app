@@ -3,7 +3,7 @@ const String todoTable = 'todos';
 class TodoFields {
   static final List<String> values = [
     /// Add all fields
-    id, isImportant, number, title, description, time, note
+    id, isImportant, number, title, description, time, note, rememberTask
   ];
 
   static const String id = '_id';
@@ -13,6 +13,7 @@ class TodoFields {
   static const String description = 'description';
   static const String time = 'time';
   static const String note = 'note';
+  static const String rememberTask = 'rememberTask';
 }
 
 class Todo {
@@ -23,6 +24,7 @@ class Todo {
   final String description;
   final DateTime createdTime;
   final String note;
+  final String rememberTask;
 
   const Todo({
     this.id,
@@ -32,6 +34,7 @@ class Todo {
     required this.description,
     required this.createdTime,
     required this.note,
+    required this.rememberTask,
   });
 
   Todo copy({
@@ -42,6 +45,7 @@ class Todo {
     String? description,
     DateTime? createdTime,
     String? note,
+    String? rememberTask,
   }) =>
       Todo(
         id: id ?? this.id,
@@ -50,7 +54,8 @@ class Todo {
         title: title ?? this.title,
         description: description ?? this.description,
         createdTime: createdTime ?? this.createdTime,
-        note: note ?? this.note
+        note: note ?? this.note,
+          rememberTask: rememberTask ?? this.rememberTask
       );
 
   static Todo fromJson(Map<String, Object?> json) => Todo(
@@ -61,6 +66,7 @@ class Todo {
     description: json[TodoFields.description] as String,
     note: json[TodoFields.note] as String,
     createdTime: DateTime.parse(json[TodoFields.time] as String),
+    rememberTask: json[TodoFields.rememberTask] as String,
   );
 
   Map<String, Object?> toJson() => {
@@ -71,5 +77,6 @@ class Todo {
     TodoFields.description: description,
     TodoFields.note: note,
     TodoFields.time: createdTime.toIso8601String(),
+    TodoFields.rememberTask:rememberTask,
   };
 }

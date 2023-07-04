@@ -17,6 +17,7 @@ class CrudBloc extends Bloc<CrudEvent, CrudState> {
           number: event.number,
           title: event.title,
           note: event.note,
+          rememberTask: event.rememberTask,
         ),
       );
     });

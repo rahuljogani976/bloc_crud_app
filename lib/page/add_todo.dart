@@ -14,6 +14,7 @@ class _AddTodoPageState extends State<AddTodoPage> {
   final TextEditingController _title = TextEditingController();
   final TextEditingController _description = TextEditingController();
   final TextEditingController _note = TextEditingController();
+  final TextEditingController _rememberTask = TextEditingController();
   bool toggleSwitch = false;
 
   @override
@@ -31,74 +32,81 @@ class _AddTodoPageState extends State<AddTodoPage> {
           ),
           title: Text("Add Todo".toUpperCase(),style: const TextStyle(fontSize: 15,color: Colors.white)),
         ),
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 25),
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const CustomText(text: 'Title',),
-              TextFormField(
-                controller: _title,
-              ),
-              const SizedBox(height: 15),
-              const CustomText(text: 'Description'),
-              TextFormField(controller: _description),
-              const SizedBox(height: 15),
-              const CustomText(text: 'Note'),
-              TextFormField(controller: _note),
-              const SizedBox(height: 15),
-              const CustomText(text: 'Important'),
-              Center(
-                child: Switch(
-                  value: toggleSwitch,
-                  onChanged: (newVal) {
-                    setState(() {
-                      toggleSwitch = !toggleSwitch;
-                    });
+        body: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 25),
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const CustomText(text: 'Title',),
+                TextFormField(
+                  controller: _title,
+                ),
+                const SizedBox(height: 15),
+                const CustomText(text: 'Description'),
+                TextFormField(controller: _description),
+                const SizedBox(height: 15),
+                const CustomText(text: 'Note'),
+                TextFormField(controller: _note),
+                const SizedBox(height: 15),
+                const CustomText(text: 'Remember Task'),
+                TextFormField(controller: _rememberTask),
+                const SizedBox(height: 15),
+                const CustomText(text: 'Important'),
+                Center(
+                  child: Switch(
+                    value: toggleSwitch,
+                    onChanged: (newVal) {
+                      setState(() {
+                        toggleSwitch = !toggleSwitch;
+                      });
+                    },
+                  ),
+                ),
+                BlocBuilder<CrudBloc, CrudState>(
+                  builder: (context, state) {
+                    return Center(
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.indigoAccent, foregroundColor: Colors.white),
+                          onPressed: () {
+                            if (_title.text.isNotEmpty &&
+                                _description.text.isNotEmpty && _note.text.isNotEmpty) {
+                              context.read<CrudBloc>().add(
+                                AddTodoEvent(
+                                  title: _title.text,
+                                  isImportant: toggleSwitch,
+                                  number: 0,
+                                  description: _description.text,
+                                  note: _note.text,
+                                  createdTime: DateTime.now(),
+                                  rememberTask: _rememberTask.text,
+                                ),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                duration: Duration(seconds: 1),
+                                content: Text("todo added successfully"),
+                              ));
+                              context.read<CrudBloc>().add(const FetchTodos());
+                              Navigator.pop(context);
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    "title and description fields must not be blank"
+                                        .toUpperCase()),
+                              ));
+                            }
+                          },
+                          child: const Text('Add Todo')),
+                    );
                   },
                 ),
-              ),
-              BlocBuilder<CrudBloc, CrudState>(
-                builder: (context, state) {
-                  return Center(
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.indigoAccent, foregroundColor: Colors.white),
-                        onPressed: () {
-                          if (_title.text.isNotEmpty &&
-                              _description.text.isNotEmpty && _note.text.isNotEmpty) {
-                            context.read<CrudBloc>().add(
-                              AddTodoEvent(
-                                title: _title.text,
-                                isImportant: toggleSwitch,
-                                number: 0,
-                                description: _description.text,
-                                note: _note.text,
-                                createdTime: DateTime.now(),
-                              ),
-                            );
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              duration: Duration(seconds: 1),
-                              content: Text("todo added successfully"),
-                            ));
-                            context.read<CrudBloc>().add(const FetchTodos());
-                            Navigator.pop(context);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text(
-                                  "title and description fields must not be blank"
-                                      .toUpperCase()),
-                            ));
-                          }
-                        },
-                        child: const Text('Add Todo')),
-                  );
-                },
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

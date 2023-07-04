@@ -37,6 +37,7 @@ class DatabaseService {
         description NOT NULL,
         time NOT NULL,
         note NOT NULL,
+        rememberTask NOT NULL
         )
       ''');
   }
